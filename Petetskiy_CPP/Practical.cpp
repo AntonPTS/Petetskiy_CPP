@@ -17,6 +17,7 @@ int PZ_5_1(int width, int height, int m);
 int PZ_5_2(float a, double b);
 int PZ_6_1(int m);
 int PZ_6_2(int n, int l, int k, int result);
+int PZ_6_3(int n, int k);
 
 int main()
 {
@@ -24,11 +25,11 @@ int main()
 	SetConsoleOutputCP(1251);
 
 	int g;
-	cout << "Выберите практическую. Для этого введите число от 1 до 9\n" << "1 - PZ_2_1\n" << "2 - PZ_3_1\n" << "3 - PZ_3_2\n" << "4 - PZ_4_1\n" << "5 - PZ_4_2\n" << "6 - PZ_5_1\n" << "7 - PZ_5_2\n" << "8 - PZ_6_1\n" << "9 - PZ_6_2\n\n";
+	cout << "Выберите практическую. Для этого введите число от 1 до 10\n" << "1 - PZ_2_1\n" << "2 - PZ_3_1\n" << "3 - PZ_3_2\n" << "4 - PZ_4_1\n" << "5 - PZ_4_2\n" << "6 - PZ_5_1\n" << "7 - PZ_5_2\n" << "8 - PZ_6_1\n" << "9 - PZ_6_2\n" << "10 - PZ_6_3\n\n";
 	cin >> g;
 	cout << "\n";
 
-	if (g >= 1 && g <= 9) {
+	if (g >= 1 && g <= 10) {
 		cout << "Вариант 17\n";
 		cout << "Практическая #";
 		if (g == 1) {
@@ -178,7 +179,30 @@ int main()
 			int result = 0;
 			cout << "Введите число N: ";
 			cin >> n;
-			PZ_6_2(n, l, k, result);
+			if (n > 0) {
+				PZ_6_2(n, l, k, result);
+			}
+			else {
+				cout << "\nВы ввели число <=0 или не число!" << endl;
+				return 0;
+			}
+		}
+		if (g == 10) {
+			cout << "6_3\n\n" << "Дан список A размера N и целое число K (1 < K < 4, K < N ).\nОсуществить циклический сдвиг элементов списка влево на K позиций\n(при этом AN перейдет в AN_K, AN - 1 — в ANK - 1, ..., A1 — в AN - K + 1).\nДопускается использовать вспомогательный список из 4 элементов.\n\n";
+			int n;
+			int k;
+			cout << "Введите число N: ";
+			cin >> n;
+			cout << "Введите число K: ";
+			cin >> k;
+			if (n > 0 && k > 1 && k < 4 && k < n) {
+				cout << "\n";
+				PZ_6_3(n, k);
+			}
+			else {
+				cout << "\nВы ввели число <=0 или не число!" << endl;
+				return 0;
+			}
 		}
 	}
 	else {
@@ -364,5 +388,34 @@ int PZ_6_2(int n, int l, int k, int result) {
 	}
 	int poz2 = poz1 + 1;
 	cout << k << "\n\n" << poz1 << "\n" << poz2 << endl;
+	return 0;
+}
+
+int PZ_6_3(int n, int k) {
+	list<int> a = {};
+	list<int>::iterator i;
+	random_device rd;
+	for (int m = 0; m < n; m++) {
+		random_device  rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<> dist(1, 9);
+		a.push_back(dist(gen));
+	}
+	cout << "Исходный список: ";
+	for (i = a.begin(); i != a.end(); i++) {
+		cout << (*i) << " ";
+	}
+	cout << endl;
+
+	for (int j = 0; j < k; j++) {
+		int first = a.front();
+		a.push_back(first);
+		a.pop_front();
+	}
+	cout << "Список со сдвигом на K позиций: ";
+	for (i = a.begin(); i != a.end(); i++) {
+		cout << (*i) << " ";
+	}
+	cout << endl;
 	return 0;
 }
