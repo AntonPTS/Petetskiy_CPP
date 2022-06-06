@@ -5,6 +5,9 @@
 #include <list>
 #include <random>
 #include <iterator>
+#include <cctype>
+#include <string>
+#include <map>
 
 using namespace std;
 
@@ -18,6 +21,8 @@ int PZ_5_2(float a, double b);
 int PZ_6_1(int m);
 int PZ_6_2(int n, int l, int k, int result);
 int PZ_6_3(int n, int k);
+int PZ_7_1(string str);
+int PZ_8_1(float sum, map <string, int> book);
 
 int main()
 {
@@ -25,11 +30,11 @@ int main()
 	SetConsoleOutputCP(1251);
 
 	int g;
-	cout << "Выберите практическую. Для этого введите число от 1 до 10\n" << "1 - PZ_2_1\n" << "2 - PZ_3_1\n" << "3 - PZ_3_2\n" << "4 - PZ_4_1\n" << "5 - PZ_4_2\n" << "6 - PZ_5_1\n" << "7 - PZ_5_2\n" << "8 - PZ_6_1\n" << "9 - PZ_6_2\n" << "10 - PZ_6_3\n\n";
+	cout << "Выберите практическую. Для этого введите число от 1 до 10\n" << "1 - PZ_2_1\n" << "2 - PZ_3_1\n" << "3 - PZ_3_2\n" << "4 - PZ_4_1\n" << "5 - PZ_4_2\n" << "6 - PZ_5_1\n" << "7 - PZ_5_2\n" << "8 - PZ_6_1\n" << "9 - PZ_6_2\n" << "10 - PZ_6_3\n" << "11 - PZ_7_1\n" << "12 - PZ_8_1\n\n";
 	cin >> g;
 	cout << "\n";
 
-	if (g >= 1 && g <= 10) {
+	if (g >= 1 && g <= 12) {
 		cout << "Вариант 17\n";
 		cout << "Практическая #";
 		if (g == 1) {
@@ -203,6 +208,24 @@ int main()
 				cout << "\nВы ввели число <=0 или не число!" << endl;
 				return 0;
 			}
+		}
+		if (g == 11) {
+			cout << "7_1\n\n" << "Дана строка. Преобразовать в ней все строчные буквы (как латинские, так и русские) в прописные.\n\n";
+			string str;
+			cout << "Введите строку: ";
+			cin >> str;
+			PZ_7_1(str);
+		}
+		if (g == 12) {
+			cout << "8_1\n\n" << "Дан словарь на 6 персон, найти и вывести их средний возраст.\n(Пример, {Андрей: 32, Виктор : 29, Максим : 18, …}, среднее 26, 33).\n\n";
+			float sum = 0;
+			map <string, int> book = { {"Андрей", 0},
+							   {"Виктор", 0},
+							   {"Максим", 0},
+							   {"Владимир", 0},
+							   {"Алексей", 0},
+							   {"Анатолий", 0}};
+			PZ_8_1(sum, book);
 		}
 	}
 	else {
@@ -417,5 +440,26 @@ int PZ_6_3(int n, int k) {
 		cout << (*i) << " ";
 	}
 	cout << endl;
+	return 0;
+}
+
+int PZ_7_1(string str) {
+	transform(str.begin(), str.end(), str.begin(), toupper);
+	cout << str << endl;
+	return 0;
+}
+
+int PZ_8_1(float sum, map <string, int> book) {
+	map<string, int>::iterator iter;
+	for (iter = book.begin(); iter != book.end(); iter++) {
+		random_device  rd;
+		mt19937 gen(rd());
+		uniform_int_distribution<> dist(1, 99);
+		iter->second = dist(gen);
+		cout << iter->first << " - " << iter->second << "\n";
+		sum += iter->second;
+	}
+	float result = sum / 6;
+	cout << "\n" << result << endl;
 	return 0;
 }
